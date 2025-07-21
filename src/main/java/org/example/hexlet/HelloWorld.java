@@ -1,15 +1,25 @@
 package org.example.hexlet;
 
 import io.javalin.Javalin;
-//import io.javalin.http.NotFoundResponse;
+import io.javalin.rendering.template.JavalinJte;
+import static io.javalin.rendering.template.TemplateUtil.model;
+import org.example.hexlet.model.Course;
+import org.example.hexlet.dto.courses.CoursePage;
 
 public class HelloWorld {
     public static void main(String[] args) {
-        // Создаем приложение
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
+            config.fileRenderer(new JavalinJte());
         });
-        // Описываем, что загрузится по адресу /
+
+        app.get("/courses/{id}", ctx -> {
+            var id = ctx.pathParam("id");
+            var course = new Course("1", "oneCourse");
+            var page = new CoursePage(course);
+            ctx.render("courses/show.jte", model("page", page));
+        });
+
         app.get("/", ctx -> ctx.result("Hello World"));
         app.get("/users", ctx -> ctx.result("Get resposeble"));
         app.post("/user", ctx -> ctx.result("Post responseble"));
@@ -24,25 +34,6 @@ public class HelloWorld {
             ctx.result("user ID: " + id + " post ID: " + postid);
         });
 
-        /*
-        app.get("/courses/{id}", ctx -> {  //динамический маршрут
-            ctx.result("Course ID: " + ctx.pathParam("id"));
-        });
-        app.get("/users/{id}", ctx -> {
-            ctx.result("User ID: " + ctx.pathParam("id"));
-        });
-
-         */
-        app.start(7070); // Стартуем веб-сервер
-
-
+        app.start(7070);
     }
-/*
-    public static void show(Context ctx){
-        var id = ctx.pathParamAsClass("id", Long.class).get();
-        var user = UserRepository.find(id)
-                .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + "not found"));
-    }
-
- */
 }
