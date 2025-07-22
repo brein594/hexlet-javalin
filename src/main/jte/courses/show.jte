@@ -5,4 +5,4 @@
 <main>
     <h1>${page.getCourse().getName()}</h1>  //интерполяция
     <p>${page.getCourse().getDescription()}</p>
-</main
+</main>

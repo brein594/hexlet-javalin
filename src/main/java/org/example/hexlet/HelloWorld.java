@@ -21,7 +21,7 @@ public class HelloWorld {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
         });
-
+        app.get("/", ctx -> ctx.render("index.jte")); //вывод из шаблона
         app.get("/courses/{id}", ctx -> {
             var id = ctx.pathParam("id");
             var page = new CoursePage(oneCourse);
@@ -40,7 +40,7 @@ public class HelloWorld {
             ctx.render("courses/index.jte", model("page", page));
         });
 
-        app.get("/", ctx -> ctx.result("Hello World"));
+        //app.get("/", ctx -> ctx.result("Hello World"));
         app.get("/users", ctx -> ctx.result("Get resposeble"));
         app.post("/user", ctx -> ctx.result("Post responseble"));
         app.get("/hello", ctx -> {
@@ -49,7 +49,7 @@ public class HelloWorld {
         });
 
         app.get("/users/{id}/post/{postid}", ctx -> {
-            var id = ctx.pathParamAsClass("id", Integer.class);
+            var id = ctx.pathParamAsClass("id", Integer.class).get();
             var postid = ctx.pathParam("postid");
             ctx.result("user ID: " + id + " post ID: " + postid);
         });
