@@ -4,7 +4,7 @@
 
 <html lang="en">
 <head>
-    <title>Hexlet</title>
+    <title>Hexlet Courses</title>
 </head>
 <body>
 <h1>${page.getHeader()}</h1>
@@ -13,7 +13,7 @@
 @else
     @for(var course : page.getCourses())
         <div>
-            <h2><a href="/courses/${course.getId()}">${course.getName()}</a></h2>
+            <h2><a href="/courses/${Integer.toString(course.getId())}">${course.getName()}</a></h2>
             <p>${course.getDescription()}</p>
         </div>
     @endfor
