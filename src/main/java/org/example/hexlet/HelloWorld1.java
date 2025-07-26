@@ -13,6 +13,6 @@ public class HelloWorld1 {
             ctx.result("<h1>" + id + "</h1>");
         });
 
-        app.start(7070);
+        app.start(7072);
     }
 }

@@ -8,6 +8,12 @@
 </head>
 <body>
 <h1>${page.getHeader()}</h1>
+
+<form action="/courses" method="get">
+    <input type="search" name="term" value="${page.getTerm()}" />
+    <input type="submit" value="Search" />
+</form>
+
 @if(page.getCourses().isEmpty())
     <p>List course is empty</p>
 @else
@@ -18,5 +24,7 @@
         </div>
     @endfor
 @endif
+<p><a href="/courses">courses</a></p>
+<p><a href="/">Home</a></p>
 </body>
 </html>

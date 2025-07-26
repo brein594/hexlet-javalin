@@ -9,4 +9,5 @@ content = @`
             <p></p>
         </div>
     @endfor
+    <h6><a href="/users/build">Add new user</a></h6>
 `)
