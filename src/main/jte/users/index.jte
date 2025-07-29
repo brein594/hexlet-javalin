@@ -1,3 +1,4 @@
+@import org.example.hexlet.NamedRoutes
 @import org.example.hexlet.dto.users.UsersPage
 @param UsersPage page
 
@@ -9,5 +10,5 @@ content = @`
             <p></p>
         </div>
     @endfor
-    <h6><a href="/users/build">Add new user</a></h6>
+    <h6><a href="${NamedRoutes.buildUserPath()}">Add new user</a></h6>
 `)

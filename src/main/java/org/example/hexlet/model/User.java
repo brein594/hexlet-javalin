@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @Setter
 public  class User {
-    private final int id;
+    private int id;
 
     @ToString.Include
     private final String firstName;
@@ -22,4 +22,12 @@ public  class User {
         this.lastName = lastName;
         this.password = password;
     }
+
+    public User(String firstName, String lastName, String password){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
+
+
 }
