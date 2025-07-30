@@ -1,11 +1,13 @@
 package org.example.hexlet.repository;
 
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.example.hexlet.dto.users.UserPage;
 import org.example.hexlet.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class UserRepository {
@@ -30,7 +32,23 @@ public class UserRepository {
         usersRep.remove(user.getId());
     }
 
+    public static void delete(int id) {
+        usersRep.remove(id);
+    }
+
     public static ArrayList<User> getUsers() {
         return new ArrayList<>(usersRep);
+    }
+
+    public static Optional<User> find (int id) {
+        return usersRep.stream()
+                .filter( user -> user.getId() == id)
+                .findAny();
+    }
+
+    public static List<User> search(String term) {
+        return usersRep.stream()
+                .filter(entity -> StringUtils.startsWithIgnoreCase(entity.getFirstName(), term))
+                .toList();
     }
 }

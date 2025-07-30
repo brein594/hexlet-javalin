@@ -1,7 +1,7 @@
 package org.example.hexlet;
 
 public class NamedRoutes {
-    public static String userPath() {
+    public static String usersPath() {
         return "/users";
     }
 
@@ -21,12 +21,12 @@ public class NamedRoutes {
         return "/courses/" + id;
     }
 
-    public static String userPath(int id) {
+    public static String usersPath(int id) {
         //return userPath()+ "/" + String.valueOf(id);
-        return userPath(String.valueOf(id));
+        return usersPath(String.valueOf(id));
     }
 
-    public static String userPath(String id) {
+    public static String usersPath(String id) {
         return "/users/" + id;
     }
 }

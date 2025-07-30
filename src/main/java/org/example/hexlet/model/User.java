@@ -12,9 +12,9 @@ public  class User {
     private int id;
 
     @ToString.Include
-    private final String firstName;
-    private final String lastName;
-    private final String password;
+    private  String firstName;
+    private  String lastName;
+    private  String password;
 
     public User(int id, String firstName, String lastName, String password){
         this.id = id;
@@ -28,6 +28,10 @@ public  class User {
         this.lastName = lastName;
         this.password = password;
     }
+    /*
+    public String setFirstName(String name) {
+        firstName = name;
+    }*/
 
 
 }
