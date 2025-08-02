@@ -29,4 +29,14 @@ public class NamedRoutes {
     public static String usersPath(String id) {
         return "/users/" + id;
     }
+
+    public static String sessionsPath() {
+        return "/sessions";
+    }
+    public static String buildSessionsPath() {
+        return "/sessions/build";
+    }
+    public static String destroySessionsPath() {
+        return "/sessions/destroy";
+    }
 }

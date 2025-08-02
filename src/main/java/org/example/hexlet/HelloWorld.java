@@ -6,16 +6,12 @@ import io.javalin.rendering.template.JavalinJte;
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 import org.example.hexlet.controller.CoursesController;
+import org.example.hexlet.controller.SessionsController;
 import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.dto.MainPage;
-import org.example.hexlet.dto.courses.CoursesPage;
-import org.example.hexlet.model.Course;
-import org.example.hexlet.dto.courses.CoursePage;
-import org.apache.commons.lang3.StringUtils;
+import org.example.hexlet.dto.MainPageSession;
 import org.example.hexlet.repository.CourseRepository;
 import org.example.hexlet.repository.UserRepository;
-
-import java.util.ArrayList;
 
 
 public class HelloWorld {
@@ -34,6 +30,16 @@ public class HelloWorld {
             ctx.render("index.jte", model("page", page));
             ctx.cookie("visited", String.valueOf(true));
         }); //вывод из шаблона
+
+        app.get(NamedRoutes.buildSessionsPath(), SessionsController::build);
+        app.post(NamedRoutes.sessionsPath(), SessionsController::create);
+        app.get(NamedRoutes.destroySessionsPath(), SessionsController::destroy);
+
+        app.get("/s", ctx -> {
+            var page = new MainPageSession(ctx.sessionAttribute("currentUser"));
+            ctx.render("sessions/index.jte", model("page", page));
+
+        });
 
         app.get(NamedRoutes.coursePath("{id}"), CoursesController::show);
 

@@ -81,5 +81,4 @@ public class UsersController {
         ctx.redirect(NamedRoutes.usersPath());
     }
 
-
 }
