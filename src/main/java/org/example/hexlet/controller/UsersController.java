@@ -18,12 +18,14 @@ public class UsersController {
     public static void index(Context ctx) {
         var users = UserRepository.getUsers();
         var page = new UsersPage(users);
+        page.setFlash(ctx.consumeSessionAttribute("addUser"));
         ctx.render("users/index.jte", model("page", page));
     }
 
     public static void show(Context ctx) {
         var id = ctx.pathParamAsClass("id", Integer.class).get();
         var page = new UserPage(UserRepository.getUsers().get(id - 1));
+
         ctx.render("users/show.jte", model("page", page));
     }
 
@@ -45,6 +47,7 @@ public class UsersController {
                     .get();
             var user = new User(firsName, lastName, password);
             UserRepository.save(user);
+            ctx.sessionAttribute("addUser", "User has been created!");
             ctx.redirect(NamedRoutes.usersPath());
         } catch (ValidationException e) {
             var page = new BuildUserPage(firsName, lastName, e.getErrors());

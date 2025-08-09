@@ -40,6 +40,7 @@ public class HelloWorld {
             ctx.render("sessions/index.jte", model("page", page));
 
         });
+        app.get(NamedRoutes.buildCoursePath(), CoursesController::build);
 
         app.get(NamedRoutes.coursePath("{id}"), CoursesController::show);
 
@@ -51,7 +52,10 @@ public class HelloWorld {
 
         app.get(NamedRoutes.usersPath(), UsersController::index);
 
+
+
         app.post(NamedRoutes.usersPath(), UsersController::create);
+        app.post(NamedRoutes.coursePath(), CoursesController::create);
 
 
         //app.get("/", ctx -> ctx.result("Hello World"));

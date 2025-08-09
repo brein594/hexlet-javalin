@@ -38,7 +38,7 @@ public class CourseRepository {
         return new ArrayList<>(coursesRep);
     }
 
-    public static Optional<Course> find (String name) {
+    public static Optional<Course> find(String name) {
         return coursesRep.stream()
                 .filter( course -> course.getName().equals(name))
                 .findAny();

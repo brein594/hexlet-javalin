@@ -25,6 +25,9 @@ public class NamedRoutes {
         //return userPath()+ "/" + String.valueOf(id);
         return usersPath(String.valueOf(id));
     }
+    public static String buildCoursePath() {
+        return "/courses/build";
+    }
 
     public static String usersPath(String id) {
         return "/users/" + id;
