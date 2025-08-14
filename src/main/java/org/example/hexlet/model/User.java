@@ -1,13 +1,11 @@
 package org.example.hexlet.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @ToString
 @Setter
+@NoArgsConstructor
 public  class User {
     private int id;
 

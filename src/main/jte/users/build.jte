@@ -16,7 +16,7 @@ content = @`
         <div>
             <label>
                 Имя
-                <input type="text" required name="firsName" />
+                <input type="text" required name="firstName" />
             </label>
         </div>
         <div>

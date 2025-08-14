@@ -42,4 +42,10 @@ public class NamedRoutes {
     public static String destroySessionsPath() {
         return "/sessions/destroy";
     }
+    public static String destroySessionsPath(String id) {
+        return "/sessions/destroy/" + id;
+    }
+    public static String destroySessionsPath(int id) {
+        return "/sessions/destroy/" + String.valueOf(id);
+    }
 }

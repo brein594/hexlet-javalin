@@ -1,54 +1,105 @@
 package org.example.hexlet.repository;
 
-import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
-import org.example.hexlet.dto.users.UserPage;
 import org.example.hexlet.model.User;
 
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.example.hexlet.repository.BaseRepository.dataSource;
 
-public class UserRepository {
-    private final static ArrayList<User> usersRep = new ArrayList<>();
+public class UserRepository extends BaseRepository {
 
-    public static void initUser() {
-        var id = usersRep.size() + 1;
-        var oneUser = new User(id, "Anya", "Petrova", "1234");
-        usersRep.add(oneUser);
-        id = usersRep.size() + 1;
-        var twoUser = new User(id, "Petyz", "Ivanov", "1234");
-        usersRep.add(twoUser);
+    public static void save(User user) throws SQLException  {
+        String sql = "INSERT INTO users (firstName, lastName, password) VALUES (?, ?, ?)";
+        try (var conn = dataSource.getConnection();
+             var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.executeUpdate();
+            var generatedKeys = preparedStatement.getGeneratedKeys();
+            if(generatedKeys.next()) {
+                user.setId(generatedKeys.getInt(1));
+            } else {
+                throw new SQLException("DB have not returned an id after saving an entity");
+            }
+        }
     }
+    public static void delete(User user) throws SQLException  {
+        var sql = "DELETE FROM users WHERE id = ?";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, user.getId());
+        }
 
-    public static void save(User user) {
-        var id = usersRep.size() + 1;
-        var userSave = new User (id, user.getFirstName(), user.getLastName(), user.getPassword());
-        usersRep.add(userSave);
     }
-
-    public static void delete(User user) {
-        usersRep.remove(user.getId());
+    public static void delete(int id) throws SQLException {
+        var sql = "DELETE FROM users WHERE id = ?";
+        try (var conn = dataSource.getConnection();
+              var stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+        }
     }
-
-    public static void delete(int id) {
-        usersRep.remove(id);
+    public static ArrayList<User> getUsers() throws SQLException  {
+        var sql = "SELECT * FROM users";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            var resultSet = stmt.executeQuery();
+            var result = new ArrayList<User>();
+            while (resultSet.next()) {
+                var id = resultSet.getInt("id");
+                var firstName = resultSet.getString("firstName");
+                var lastName = resultSet.getString("LastName");
+                var password = resultSet.getString("password");
+                var user = new User(id, firstName, lastName, password);
+                result.add(user);
+            }
+            return result;
+        }
     }
+    public static Optional<User> find (int id) throws SQLException  {
+        var sql = "SELECT * FROM users WHERE id = ?";
+        try (var conn = dataSource.getConnection();
+           var stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            var resultSet = stmt.executeQuery();
+            if(resultSet.next()){
+                var firstName = resultSet.getString("firstName");
+                var lastName = resultSet.getString("lastName");
+                var password = resultSet.getString("password");
+                var user = new User(firstName, lastName, password);
+                user.setId(id);
+                return Optional.of(user);
+            }
+            return Optional.empty();
+        }
 
-    public static ArrayList<User> getUsers() {
-        return new ArrayList<>(usersRep);
     }
-
-    public static Optional<User> find (int id) {
-        return usersRep.stream()
-                .filter( user -> user.getId() == id)
-                .findAny();
+    public static List<User> search(String term) throws SQLException {
+        var sql = "SELECT * FROM users WHERE firstName LIKE '?'";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1,term);
+            var resultSet = stmt.executeQuery();
+            var result = new ArrayList<User>();
+            while (resultSet.next()) {
+                var id = resultSet.getInt("id");
+                var firstName = resultSet.getString("firstName");
+                var lastName = resultSet.getString("lastName");
+                var password = resultSet.getString("password");
+                var user = new User(id, firstName, lastName, password);
+                result.add(user);
+            }
+            return result;
+        }
     }
-
-    public static List<User> search(String term) {
-        return usersRep.stream()
-                .filter(entity -> StringUtils.startsWithIgnoreCase(entity.getFirstName(), term))
-                .toList();
+    public static void initUser() throws SQLException {
+        var oneUser = new User("Anya", "Petrova", "1234");
+        save(oneUser);
+        var twoUser = new User("Petya", "Ivanov", "1234");
+        save(twoUser);
     }
 }

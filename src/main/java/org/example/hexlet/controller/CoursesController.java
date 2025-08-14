@@ -6,7 +6,7 @@ import org.example.hexlet.NamedRoutes;
 import org.example.hexlet.dto.courses.CoursePage;
 import org.example.hexlet.dto.courses.CoursesPage;
 import org.example.hexlet.model.Course;
-import org.example.hexlet.repository.CourseRepository;
+import org.example.hexlet.repository.CourseRepository1;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -15,10 +15,10 @@ public class CoursesController {
     public static void index(Context ctx) {
         var header = "course programming";
         var term = ctx.queryParam("term");
-        var coursesPage = CourseRepository.getCourses();
+        var coursesPage = CourseRepository1.getCourses();
         if (term != null) {
             coursesPage.clear();
-            for (var c : CourseRepository.getCourses()) {
+            for (var c : CourseRepository1.getCourses()) {
                 if (StringUtils.startsWithIgnoreCase(c.getName(), term)) {
                     coursesPage.add(c);
                 }
@@ -31,7 +31,7 @@ public class CoursesController {
 
     public static void show(Context ctx) {
         var id = ctx.pathParamAsClass("id", Integer.class).get();
-        var page = new CoursePage(CourseRepository.getCourses().get(id - 1));
+        var page = new CoursePage(CourseRepository1.getCourses().get(id - 1));
 
         ctx.render("courses/show.jte", model("page", page));
     }
@@ -39,9 +39,9 @@ public class CoursesController {
     public static void create(Context ctx) {
         var name = ctx.formParam("name");
         var description = ctx.formParam("description");
-        var id = CourseRepository.getCourses().size();
+        var id = CourseRepository1.getCourses().size();
         var course = new Course(id ,name, description);
-        CourseRepository.save(course);
+        CourseRepository1.save(course);
         ctx.sessionAttribute("flash", "Course has been created!");
         ctx.redirect(NamedRoutes.coursePath());
     }
