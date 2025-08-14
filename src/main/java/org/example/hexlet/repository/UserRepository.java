@@ -79,7 +79,7 @@ public class UserRepository extends BaseRepository {
 
     }
     public static List<User> search(String term) throws SQLException {
-        var sql = "SELECT * FROM users WHERE firstName LIKE '?'";
+        var sql = "SELECT * FROM users WHERE firstName ILIKE '?%'";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1,term);

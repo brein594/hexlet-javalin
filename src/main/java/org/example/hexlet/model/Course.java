@@ -19,4 +19,9 @@ public final class Course {
         this.name = name;
         this.description = description;
     }
+
+    public Course(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

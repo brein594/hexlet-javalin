@@ -13,7 +13,7 @@ import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.dto.MainPage;
 import org.example.hexlet.dto.MainPageSession;
 import org.example.hexlet.repository.BaseRepository;
-import org.example.hexlet.repository.CourseRepository1;
+import org.example.hexlet.repository.CourseRepository;
 import org.example.hexlet.repository.UserRepository;
 import org.example.hexlet.repository.UserRepository1;
 
@@ -43,8 +43,8 @@ public class HelloWorld {
             config.fileRenderer(new JavalinJte());
         });
 
-        //UserRepository.initUser();
-        CourseRepository1.initCourse();
+        UserRepository.initUser();
+        CourseRepository.initCourse();
 
         app.get("/", ctx -> {
             var visited = Boolean.valueOf(ctx.cookie("visited"));
