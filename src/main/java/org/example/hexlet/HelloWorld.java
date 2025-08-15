@@ -26,7 +26,7 @@ public class HelloWorld {
     public static Javalin getApp() throws Exception {
         var hikariConfig = new HikariConfig();
         //hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
-        hikariConfig.setJdbcUrl(System.getenv().getOrDefault("DATABASE_URL", //чтение внешней переменной окруженияt
+        hikariConfig.setJdbcUrl(System.getenv().getOrDefault("DATABASE_URL", //чтение внешней переменной окружения
                 "jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;"));
 
         var dataSource = new HikariDataSource(hikariConfig);
