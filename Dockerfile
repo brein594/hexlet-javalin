@@ -4,6 +4,6 @@ WORKDIR /src
 
 COPY /src .
 
-RUN ["./gradlew", "clean", "build"]
+RUN ["./gradlew", "build"]
 
 CMD ["./gradlew", "run"]
